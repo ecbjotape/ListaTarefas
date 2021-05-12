@@ -10,17 +10,29 @@ export default class Main extends Component{
 state = {
       novaTarefa: '',
       tarefas: [
-      'Beber café',
-      'Beber água',
-      'Estudar',
+
     ],
     };
+
+
+  handleSubmit = (e) =>{
+    e.preventDefault();
+    const{ tarefas } = this.state;
+    let { novaTarefa } = this.state;
+    novaTarefa = novaTarefa.trim();
+
+    if (tarefas.indexOf(novaTarefa) != -1) return;
+    const novaTarefas = [ ...tarefas];
+
+    this.setState({
+      tarefas: [ ...novaTarefas, novaTarefa],
+    })
+  }
 
   handleChange = (e) =>{
     this.setState({
       novaTarefa: e.target.value,
     });
-
   }
 
   render() {
@@ -30,7 +42,7 @@ state = {
       <div className="main">
         <h1>Lista de tarefas</h1>
 
-        <form action="#" className="form">
+        <form onSubmit={this.handleSubmit} action="#" className="form">
           <input
             onChange={this.handleChange}
             type="text"
@@ -45,10 +57,10 @@ state = {
           {tarefas.map((tarefa) =>(
             <li key={tarefa} className="li">
               {tarefa}
-              <div>
+              <span>
                 <FaWindowClose className="close" />
                 <FaEdit className="edit" />
-              </div>
+              </span>
             </li>
           ))}
         </ul>
