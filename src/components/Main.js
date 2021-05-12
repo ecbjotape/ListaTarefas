@@ -21,7 +21,7 @@ state = {
     let { novaTarefa } = this.state;
     novaTarefa = novaTarefa.trim();
 
-    if (tarefas.indexOf(novaTarefa) != -1) return;
+    if (tarefas.indexOf(novaTarefa) !== -1) return;
     const novaTarefas = [ ...tarefas];
 
     this.setState({
@@ -33,6 +33,19 @@ state = {
     this.setState({
       novaTarefa: e.target.value,
     });
+  }
+  handleDelete = (e, index) => {
+    const {tarefas} = this.state;
+    const novasTarefas = [ ...tarefas];
+    novasTarefas.splice(index, 1);
+
+    this.setState({
+      tarefas: [ ...novasTarefas],
+    })
+
+  }
+  handleEdit = (e, index) => {
+
   }
 
   render() {
@@ -54,12 +67,20 @@ state = {
         </form>
 
         <ul className="tarefas">
-          {tarefas.map((tarefa) =>(
+          {tarefas.map((tarefa, index) =>(
             <li key={tarefa} className="li">
               {tarefa}
               <span>
-                <FaWindowClose className="close" />
-                <FaEdit className="edit" />
+                <FaWindowClose
+                className="close"
+                onClick={(e) => this.handleDelete(e, index)}
+
+
+                />
+                <FaEdit
+                className="edit"
+                onClick={(e) => this.handleEdit(e, index)}
+                />
               </span>
             </li>
           ))}
