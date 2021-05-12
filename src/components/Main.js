@@ -9,24 +9,36 @@ import { FaEdit, FaWindowClose } from 'react-icons/fa';
 export default class Main extends Component{
 state = {
       novaTarefa: '',
-      tarefas: [
+      tarefas: [],
+      index: -1,
 
-    ],
     };
 
 
   handleSubmit = (e) =>{
     e.preventDefault();
-    const{ tarefas } = this.state;
+    const{ tarefas, index } = this.state;
     let { novaTarefa } = this.state;
     novaTarefa = novaTarefa.trim();
 
     if (tarefas.indexOf(novaTarefa) !== -1) return;
     const novaTarefas = [ ...tarefas];
 
-    this.setState({
-      tarefas: [ ...novaTarefas, novaTarefa],
-    })
+    if(index === -1){
+      this.setState({
+        tarefas: [ ...novaTarefas, novaTarefa],
+        novaTarefa: '',
+      })
+    } else {
+      const novasTarefas = [ ...tarefas];
+      novasTarefas[index] = novaTarefa;
+
+      this.setState({
+        tarefas: [ ...novasTarefas],
+        index: -1,
+      })
+    }
+
   }
 
   handleChange = (e) =>{
@@ -45,7 +57,12 @@ state = {
 
   }
   handleEdit = (e, index) => {
+      const { tarefas } = this.state;
 
+      this.setState ({
+        index,
+        novaTarefa: tarefas[index],
+      });
   }
 
   render() {
